@@ -89,21 +89,7 @@ Kelas utama ini berfungsi sebagai titik masuk program. Dalam `main()`, program:
 
 Program akan menampilkan output seperti berikut:
 
-```text
-Jumlah nasabah di bank: 3
-----------------------------------------
-Melayani Nasabah: Budi Santoso
-Saldo Awal: Rp 500000.0
-Melakukan deposit sebesar Rp 150.000...
-Saldo saat ini: Rp 650000.0
-Melakukan penarikan sebesar Rp 200.000...
-Status Penarikan (Sukses/Gagal): true
-Saldo saat ini: Rp 450000.0
-Melakukan penarikan sebesar Rp 1.000.000...
-Status Penarikan (Sukses/Gagal): false
-----------------------------------------
-Saldo Akhir Budi Santoso: Rp 450000.0
-```
+![Hasil output program](program_output/Screenshot%202026-10-09%20135446.png)
 
 ## 🚀 Cara Menjalankan Program
 
