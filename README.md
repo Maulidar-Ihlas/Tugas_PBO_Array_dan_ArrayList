@@ -1,8 +1,8 @@
-# Tugas PBO - Simulasi Program ATM Sederhana (Java)
+# Tugas PBO - Simulasi Bank Sederhana (Java)
 
-Repositori ini berisi program ATM sederhana berbasis Java untuk mendemonstrasikan konsep **Pemrograman Berorientasi Objek (PBO)**, hubungan antarkelas, serta penggunaan `ArrayList` untuk mengelola nasabah dan rekening.
+Repositori ini berisi program Java sederhana yang menggambarkan konsep **Pemrograman Berorientasi Objek (PBO)** dengan objek `Bank`, `Customer`, dan `Account`. Program ini mensimulasikan sistem bank kecil untuk menambah nasabah, membuat rekening, serta melakukan transaksi seperti setor dan tarik tunai.
 
-Program menyediakan menu untuk memilih nasabah, mengecek saldo, melakukan setor tunai, tarik tunai, dan transfer ke rekening nasabah lainnya.
+> Catatan: walaupun nama repositori mencantumkan topik Array dan ArrayList, implementasi yang ada saat ini memakai struktur data array untuk menyimpan nasabah dan rekening. Fokus utama dari proyek ini adalah penggunaan kelas dan hubungan antarobjek dalam Java.
 
 ## 📁 Struktur Repositori
 
@@ -10,97 +10,128 @@ Program menyediakan menu untuk memilih nasabah, mengecek saldo, melakukan setor 
 Tugas_PBO_Array_dan_ArrayList/
 ├── program_output/
 │   └── Screenshot 2026-10-07 130909.png
-└── src/
-    ├── Account.java   # Mengelola saldo dan transaksi rekening
-    ├── Bank.java      # Mengelola daftar nasabah
-    ├── Customer.java  # Menyimpan identitas nasabah dan rekeningnya
-    └── Main.java      # Menjalankan program dan menampilkan menu ATM
+├── src/
+│   ├── Account.java   # Mengelola saldo dan transaksi rekening
+│   ├── Bank.java      # Menyimpan daftar nasabah
+│   ├── Customer.java  # Menyimpan data nasabah dan rekeningnya
+│   └── Main.java      # Program utama yang menjalankan simulasi
+├── README.md
+└── .gitignore
 ```
 
-## 🛠️ Penjelasan Kelas yang Digunakan
-
-Program dibagi menjadi beberapa kelas yang masing-masing bertanggung jawab atas data nasabah, rekening, pengelolaan bank, dan interaksi dengan pengguna.
+## 🧩 Penjelasan Kelas
 
 ### 1. `Account.java`
 
-Kelas ini mengelola saldo dan transaksi pada satu rekening.
+Kelas ini merepresentasikan rekening bank.
 
-- **Atribut:**
-  - `balance` (`double`): saldo rekening yang disimpan secara privat.
-- **Method:**
-  - `getBalance()`: mengembalikan saldo saat ini.
-  - `deposit(double amount)`: menambahkan setoran jika jumlahnya lebih dari nol dan mengembalikan status berhasil atau tidak.
-  - `withdraw(double amount)`: mengurangi saldo jika jumlahnya lebih dari nol dan saldo mencukupi.
-  - `transfer(Account tujuan, double amount)`: memindahkan saldo ke rekening tujuan jika tujuan tersedia, jumlahnya lebih dari nol, dan saldo mencukupi.
+- Atribut:
+  - `balance` (`double`): saldo rekening
+- Method:
+  - `getBalance()`: mengembalikan saldo saat ini
+  - `deposit(double amount)`: menambahkan saldo jika jumlahnya lebih dari 0
+  - `withdraw(double amount)`: mengurangi saldo jika saldo mencukupi
 
 ### 2. `Bank.java`
 
-Kelas ini mengelola daftar nasabah menggunakan `ArrayList<Customer>`.
+Kelas ini mengelola daftar nasabah menggunakan array.
 
-- **Method:**
-  - `addCustomer(String firstName, String lastName)`: membuat dan menambahkan nasabah ke daftar.
-  - `getCustomer(int index)`: mengambil nasabah berdasarkan indeks; mengembalikan `null` jika indeks tidak valid.
-  - `getNumOfCustomers()`: mengembalikan jumlah nasabah.
+- Atribut:
+  - `customers`: array untuk menyimpan objek `Customer`
+  - `numberOfCustomers`: jumlah nasabah yang terdaftar
+- Method:
+  - `addCustomer(String f, String l)`: menambahkan nasabah baru
+  - `getCustomer(int index)`: mengambil nasabah berdasarkan indeks
+  - `getNumOfCustomers()`: mengembalikan jumlah nasabah
 
 ### 3. `Customer.java`
 
-Kelas ini merepresentasikan nasabah beserta rekening-rekening yang dimilikinya.
+Kelas ini merepresentasikan data nasabah beserta rekeningnya.
 
-- **Atribut:**
-  - `firstName` dan `lastName` (`String`): nama depan dan nama belakang nasabah.
-  - `accounts` (`ArrayList<Account>`): daftar rekening milik nasabah.
-- **Method:**
-  - `getFirstName()` dan `getLastName()`: mengambil nama depan dan nama belakang.
-  - `getFullName()`: menggabungkan nama depan dan nama belakang.
-  - `setAccount(Account account)`: menambahkan rekening ke daftar nasabah.
-  - `getAccount(int index)`: mengambil rekening berdasarkan indeks; mengembalikan `null` jika indeks tidak valid.
-  - `getNumOfAccounts()`: mengembalikan jumlah rekening nasabah.
+- Atribut:
+  - `firstName`, `lastName`: nama nasabah
+  - `accounts`: array untuk menyimpan rekening nasabah
+  - `numberOfAccounts`: jumlah rekening milik nasabah
+- Method:
+  - `getFirstName()`, `getLastName()`: mengambil nama nasabah
+  - `setAccount(Account acct)`: menambahkan rekening ke nasabah
+  - `getAccount(int account_index)`: mengambil rekening berdasarkan indeks
+  - `getNumOfAccounts()`: mengembalikan jumlah rekening
 
 ### 4. `Main.java`
 
-Kelas ini merupakan titik masuk program dan mengatur interaksi melalui terminal.
+Kelas utama ini berfungsi sebagai titik masuk program. Dalam `main()`, program:
 
-- Membuat objek `Bank` dan mendaftarkan dua nasabah: **Maulidar Ihlas** dan **Ihlas Maulidar**.
-- Membuat satu rekening untuk setiap nasabah, dengan saldo awal masing-masing `500000` dan `1000000`.
-- Menggunakan `Scanner` untuk membaca pilihan menu.
-- Menyediakan menu utama untuk memilih nasabah atau keluar, serta sub-menu ATM untuk cek saldo, setor tunai, tarik tunai, transfer, dan kembali.
-- Transfer dilakukan otomatis ke rekening nasabah lainnya.
+- membuat objek `Bank`
+- menambahkan beberapa nasabah
+- membuat rekening baru untuk nasabah pertama
+- melakukan simulasi `deposit` dan `withdraw`
+- menampilkan saldo sebelum dan sesudah transaksi
 
----
+## ⚙️ Fitur Program
 
-## 💻 Tampilan Output Program
+- Menambah nasabah baru ke dalam bank
+- Menyimpan beberapa rekening untuk satu nasabah
+- Menghitung jumlah nasabah dan rekening
+- Menyetor uang ke rekening
+- Menarik uang dari rekening dengan validasi saldo
+- Menampilkan hasil transaksi di terminal
 
-Berikut tangkapan layar output program:
+## 🔄 Alur Kerja Program
 
-![Tampilan output program ATM](program_output/Screenshot%202026-10-07%20130909.png)
+1. Membuat objek `Bank`.
+2. Menambahkan nasabah seperti `Budi Santoso`, `Susi Susanti`, dan `Andi Wijaya`.
+3. Mengambil nasabah pertama dan memberi rekening dengan saldo awal.
+4. Melakukan transaksi deposit dan withdrawal.
+5. Menampilkan saldo akhir nasabah.
 
----
+## 🖥️ Tampilan Output
 
-## 🔄 Alur Program
+Program akan menampilkan output seperti berikut:
 
-1. **Pemilihan nasabah:** program menampilkan daftar nasabah yang tersimpan di dalam `ArrayList`. Pilih nomor nasabah untuk membuka menu ATM atau `0` untuk keluar.
-2. **Menu ATM:** program menampilkan menu transaksi untuk nasabah yang dipilih.
-3. **Cek saldo:** pilihan `1` menampilkan saldo rekening nasabah.
-4. **Setor tunai:** pilihan `2` meminta nominal setoran. Setoran berhasil jika nominal lebih dari nol.
-5. **Tarik tunai:** pilihan `3` meminta nominal penarikan. Penarikan berhasil jika nominal lebih dari nol dan saldo mencukupi.
-6. **Transfer:** pilihan `4` meminta nominal transfer dan mengirimkannya ke rekening nasabah lainnya. Transfer hanya berhasil jika nominal valid dan saldo mencukupi.
-7. **Kembali atau keluar:** pilihan `5` kembali ke menu pemilihan nasabah. Pilihan `0` pada menu utama mengakhiri program.
+```text
+Jumlah nasabah di bank: 3
+----------------------------------------
+Melayani Nasabah: Budi Santoso
+Saldo Awal: Rp 500000.0
+Melakukan deposit sebesar Rp 150.000...
+Saldo saat ini: Rp 650000.0
+Melakukan penarikan sebesar Rp 200.000...
+Status Penarikan (Sukses/Gagal): true
+Saldo saat ini: Rp 450000.0
+Melakukan penarikan sebesar Rp 1.000.000...
+Status Penarikan (Sukses/Gagal): false
+----------------------------------------
+Saldo Akhir Budi Santoso: Rp 450000.0
+```
 
 ## 🚀 Cara Menjalankan Program
 
-Pastikan Java 11 atau versi lebih baru tersedia, lalu buka terminal pada direktori repositori.
+Pastikan Java sudah terinstall di komputer Anda, lalu jalankan perintah berikut dari direktori repositori.
 
-### Menjalankan langsung dari berkas sumber
-
-```bash
-cd src
-java Main.java
-```
-
-### Mengompilasi lalu menjalankan
+### 1) Compile dan jalankan dari folder `src`
 
 ```bash
 cd src
 javac *.java
 java Main
 ```
+
+### 2) Jika Anda berada di direktori repositori utama
+
+```bash
+cd src
+javac *.java
+java Main
+```
+
+## 📝 Catatan
+
+Proyek ini cocok digunakan sebagai contoh pembelajaran tentang:
+
+- kelas dan objek
+- enkapsulasi
+- hubungan antar kelas
+- penggunaan array dalam Java
+- simulasi transaksi sederhana dalam program bank
+

@@ -1,189 +1,48 @@
-import java.util.Scanner;
-
 public class Main {
-
     public static void main(String[] args) {
+        // 1. Membuat objek Bank baru
+        Bank bankKita = new Bank();
 
-        Scanner scanner = new Scanner(System.in);
+        // 2. Menambahkan beberapa nasabah (Customer) ke dalam Bank
+        bankKita.addCustomer("Budi", "Santoso");
+        bankKita.addCustomer("Susi", "Susanti");
+        bankKita.addCustomer("Andi", "Wijaya");
 
-        Bank bank = new Bank();
+        // Menampilkan jumlah nasabah yang ada di bank
+        System.out.println("Jumlah nasabah di bank: " + bankKita.getNumOfCustomers());
+        System.out.println("----------------------------------------");
 
-        // Menambahkan customer
-        bank.addCustomer("Maulidar", "Ihlas");
-        bank.addCustomer("Ihlas", "Maulidar");
+        // 3. Mengambil data nasabah pertama (indeks ke-0)
+        Customer nasabah1 = bankKita.getCustomer(0);
+        System.out.println("Melayani Nasabah: " + nasabah1.getFirstName() + " " + nasabah1.getLastName());
 
-        // Membuat account
-        bank.getCustomer(0).setAccount(new Account(500000));
-        bank.getCustomer(1).setAccount(new Account(1000000));
+        // 4. Membuat akun (Account) baru dengan saldo awal 500.000 untuk Budi
+        Account akunBudi = new Account(500000);
+        
+        // Memasukkan akun tersebut ke dalam daftar akun milik Budi
+        nasabah1.setAccount(akunBudi);
 
-        System.out.println("===== PROGRAM ATM =====");
+        // Menampilkan saldo awal Budi (mengambil akun pertama di indeks 0)
+        System.out.println("Saldo Awal: Rp " + nasabah1.getAccount(0).getBalance());
 
-        int pilihanCustomer;
+        // 5. Melakukan simulasi transaksi Deposit (Setor)
+        System.out.println("Melakukan deposit sebesar Rp 150.000...");
+        nasabah1.getAccount(0).deposit(150000);
+        System.out.println("Saldo saat ini: Rp " + nasabah1.getAccount(0).getBalance());
 
-        do {
-            System.out.println("\nPilih Customer:");
+        // 6. Melakukan simulasi transaksi Withdraw (Tarik Tunai) yang berhasil
+        System.out.println("Melakukan penarikan sebesar Rp 200.000...");
+        boolean statusTarik1 = nasabah1.getAccount(0).withdraw(200000);
+        System.out.println("Status Penarikan (Sukses/Gagal): " + statusTarik1);
+        System.out.println("Saldo saat ini: Rp " + nasabah1.getAccount(0).getBalance());
 
-            for (int i = 0; i < bank.getNumOfCustomers(); i++) {
-                Customer customer = bank.getCustomer(i);
-
-                System.out.println(
-                        (i + 1) + ". "
-                                + customer.getFullName()
-                );
-            }
-
-            System.out.println("0. Keluar");
-
-            System.out.print("Pilihan: ");
-            pilihanCustomer = scanner.nextInt();
-
-            if (pilihanCustomer == 0) {
-                break;
-            }
-
-            if (pilihanCustomer < 1 ||
-                    pilihanCustomer > bank.getNumOfCustomers()) {
-
-                System.out.println("Pilihan tidak valid.");
-                continue;
-            }
-
-            Customer customer =
-                    bank.getCustomer(pilihanCustomer - 1);
-
-            Account account =
-                    customer.getAccount(0);
-
-            int menu;
-
-            do {
-
-                System.out.println(
-                        "\n===== ATM "
-                                + customer.getFullName()
-                                + " ====="
-                );
-
-                System.out.println("1. Cek Saldo");
-                System.out.println("2. Setor Tunai");
-                System.out.println("3. Tarik Tunai");
-                System.out.println("4. Transfer");
-                System.out.println("5. Kembali");
-
-                System.out.print("Pilih menu: ");
-                menu = scanner.nextInt();
-
-                switch (menu) {
-
-                    case 1:
-                        System.out.println(
-                                "Saldo: Rp"
-                                        + account.getBalance()
-                        );
-                        break;
-
-                    case 2:
-                        System.out.print(
-                                "Masukkan jumlah setor: "
-                        );
-
-                        double setor =
-                                scanner.nextDouble();
-
-                        if (account.deposit(setor)) {
-
-                            System.out.println(
-                                    "Setoran berhasil."
-                            );
-
-                        } else {
-
-                            System.out.println(
-                                    "Jumlah tidak valid."
-                            );
-                        }
-
-                        break;
-
-                    case 3:
-                        System.out.print(
-                                "Masukkan jumlah tarik: "
-                        );
-
-                        double tarik =
-                                scanner.nextDouble();
-
-                        if (account.withdraw(tarik)) {
-
-                            System.out.println(
-                                    "Penarikan berhasil."
-                            );
-
-                        } else {
-
-                            System.out.println(
-                                    "Saldo tidak mencukupi."
-                            );
-                        }
-
-                        break;
-
-                    case 4:
-
-                        System.out.print(
-                                "Masukkan jumlah transfer: "
-                        );
-
-                        double transfer =
-                                scanner.nextDouble();
-
-                        // Untuk contoh sederhana,
-                        // transfer dari customer 1 ke customer 2
-                        Account tujuan;
-
-                        if (pilihanCustomer == 1) {
-                            tujuan =
-                                    bank.getCustomer(1).getAccount(0);
-                        } else {
-                            tujuan =
-                                    bank.getCustomer(0).getAccount(0);
-                        }
-
-                        if (account.transfer(tujuan, transfer)) {
-
-                            System.out.println(
-                                    "Transfer berhasil."
-                            );
-
-                        } else {
-
-                            System.out.println(
-                                    "Transfer gagal."
-                            );
-                        }
-
-                        break;
-
-                    case 5:
-                        System.out.println(
-                                "Kembali ke pilihan customer."
-                        );
-                        break;
-
-                    default:
-                        System.out.println(
-                                "Menu tidak tersedia."
-                        );
-                }
-
-            } while (menu != 5);
-
-        } while (true);
-
-        System.out.println(
-                "Terima kasih."
-        );
-
-        scanner.close();
+        // 7. Melakukan simulasi transaksi Withdraw (Tarik Tunai) yang gagal (saldo tidak cukup)
+        System.out.println("Melakukan penarikan sebesar Rp 1.000.000...");
+        boolean statusTarik2 = nasabah1.getAccount(0).withdraw(1000000);
+        System.out.println("Status Penarikan (Sukses/Gagal): " + statusTarik2);
+        
+        System.out.println("----------------------------------------");
+        // Menampilkan saldo akhir
+        System.out.println("Saldo Akhir " + nasabah1.getFirstName() + " " + nasabah1.getLastName() + ": Rp " + nasabah1.getAccount(0).getBalance());
     }
 }
