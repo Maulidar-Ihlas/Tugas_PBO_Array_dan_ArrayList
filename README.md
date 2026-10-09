@@ -2,8 +2,6 @@
 
 Repositori ini berisi program Java sederhana yang menggambarkan konsep **Pemrograman Berorientasi Objek (PBO)** dengan objek `Bank`, `Customer`, dan `Account`. Program ini mensimulasikan sistem bank kecil untuk menambah nasabah, membuat rekening, serta melakukan transaksi seperti setor dan tarik tunai.
 
-> Catatan: walaupun nama repositori mencantumkan topik Array dan ArrayList, implementasi yang ada saat ini memakai struktur data array untuk menyimpan nasabah dan rekening. Fokus utama dari proyek ini adalah penggunaan kelas dan hubungan antarobjek dalam Java.
-
 ## 📁 Struktur Repositori
 
 ```text
